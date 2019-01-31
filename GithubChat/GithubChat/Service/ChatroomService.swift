@@ -23,13 +23,39 @@ class ChatroomService {
 
     }
 
-    func sendMessage(to userId: Int, message: Message, result: Results<Void>) {
+    var fakeMessageRepeater: ((String) -> Void)?
+    func observingMessage(from userId: Int, onReceive: Results<Message>) {
+        fakeMessageRepeater = { [weak self] text in
+            if let msg = self?.generateNextMessage(sender: userId, text: text) {
+                onReceive.completeClosure(msg)
+            }
+        }
+    }
+
+    func sendMessage(to userId: Int, text: String, result: Results<Void>) {
         DispatchQueue.global().async {
             sleep(1)
+            let message = self.generateNextMessage(sender: AuthService.shared.currentUserId,
+                                              text: text)
+
             var messages = self.messages[userId] ?? [Message]()
             messages.append(message)
             self.messages[userId] = messages
+
             result.completeClosure(())
+
+            // Fake the reply with an echo
+            sleep(1)
+            self.fakeMessageRepeater?(text)
         }
+    }
+
+    private var maxId: Int = 0
+    private func generateNextMessage(sender: Int, text: String) -> Message {
+        maxId += 1
+        let message = Message(id: maxId,
+                              content: text,
+                              senderId: sender)
+        return message
     }
 }

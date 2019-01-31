@@ -9,7 +9,7 @@
 import Foundation
 
 struct Message: Decodable {
-    let id: String
+    let id: Int
     let content: String
     let senderId: Int
 

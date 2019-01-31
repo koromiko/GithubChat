@@ -26,3 +26,83 @@ class Observable<T> {
         self.value = value
     }
 }
+
+/**
+ Observable for array that one might be able to receive the changed index for the array
+
+ - Description:
+ By assigning the valueChanged and dataReloaded to get the value update of the array. This object could be used as an collection, like subscription get/set and filter/map, etc. In addition, append, insert, and remove are also supported
+ - Data:
+ To reload the whole array, use reloadData(_ values: [T])
+*/
+class ArrayObservable<T>: Collection, RangeReplaceableCollection {
+    typealias Element = T
+    typealias Index = Int
+
+    /// The manipulation type to the arrry
+    enum Action {
+        case insert
+        case remove
+        case reload
+    }
+
+    private var values: [T]
+
+    /// Observing single value changes
+    var valueChanged: ((Int, Action) -> Void)?
+
+    /// Observing the whole array update
+    var dataReloaded: (() -> Void)?
+
+    required init() {
+        values = []
+    }
+
+    // MARK: Collection Conformation
+    var startIndex: Int {
+        return values.startIndex
+    }
+
+    var endIndex: Int {
+        return values.endIndex
+    }
+
+    func index(after i: Int) -> Int {
+        return values.index(after: i)
+    }
+
+    subscript(position: Int) -> T {
+        get {
+            return values[position]
+        }
+        set(newValue) {
+            valueChanged?(position, .reload)
+            values[position] = newValue
+        }
+    }
+
+    // MARK: Data Manipulation
+
+    func append(_ newElement: T) {
+        values.append(newElement)
+        valueChanged?(values.count-1, .insert)
+    }
+
+    func remove(at position: Int) -> T {
+        let value = values.remove(at: position)
+        valueChanged?(position, .remove)
+        return value
+    }
+
+    func insert(_ newElement: T, at i: Int) {
+        values.insert(newElement, at: i)
+        valueChanged?(i, .insert)
+    }
+
+    /// Update the whole array
+    func reloadData(_ values: [T]) {
+        self.values = values
+        dataReloaded?()
+    }
+
+}

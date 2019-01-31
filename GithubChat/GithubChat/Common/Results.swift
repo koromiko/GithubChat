@@ -12,7 +12,7 @@ import Foundation
 class Results<T> {
     let completeClosure: (T) -> Void
     let errorClosure: ((Error) -> Void)?
-    init(complete: @escaping (T) -> Void, errorClosure: ((Error)->Void)? = nil) {
+    init(complete: @escaping (T) -> Void, errorClosure: ((Error) -> Void)? = nil) {
         self.completeClosure = complete
         self.errorClosure = errorClosure
     }

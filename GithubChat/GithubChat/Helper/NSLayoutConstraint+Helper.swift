@@ -15,4 +15,3 @@ extension Array where Element: NSLayoutConstraint {
         }
     }
 }
-

@@ -10,7 +10,7 @@ import UIKit
 
 class ChatroomViewModel {
     let chatroomTitle = Observable("")
-    let cellViewModels = Observable([ChatroomCellViewModel]())
+    let cellViewModels = ArrayObservable<ChatroomCellViewModel>()
 }
 
 class ChatroomViewController: UIViewController, SingleTypeTableViewController {
@@ -18,6 +18,10 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
 
     private let controller: ChatroomController
     private let viewModel: ChatroomViewModel
+
+    private var tapGestureRecognizer: UITapGestureRecognizer?
+
+    private var messageInputViewBottomConstraint: NSLayoutConstraint?
 
     lazy var tableView: UITableView = {
         let tableView = generateTableView()
@@ -27,6 +31,7 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
 
     lazy var messageInputView: ChatroomInputView = {
         let inputView: ChatroomInputView = view.generateSubview()
+        inputView.delegate = self
         return inputView
     }()
 
@@ -50,7 +55,9 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
     private func initLayout() {
         view.backgroundColor = .white
         tableView.constraints(snapTo: view, top: 0, left: 0, right: 0).activate()
-        messageInputView.constraints(snapTo: view, left: 0, bottom: 0, right: 0).activate()
+        messageInputView.constraints(snapTo: view, left: 0, right: 0).activate()
+        messageInputViewBottomConstraint = messageInputView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        messageInputViewBottomConstraint?.isActive = true
         messageInputView.topAnchor.constraint(equalTo: tableView.bottomAnchor).isActive = true
     }
 
@@ -59,9 +66,13 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
             self?.title = title
         }
 
-        viewModel.cellViewModels.valueChanged = { [weak self] _ in
+        viewModel.cellViewModels.dataReloaded = { [weak self] () in
             self?.tableView.isHidden = false
             self?.tableView.reloadData()
+        }
+
+        viewModel.cellViewModels.valueChanged = { [weak self] (index, actionType) in
+            self?.handleCellValueChanged(at: index, actionType: actionType)
         }
     }
 
@@ -71,20 +82,90 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
         controller.start()
     }
 
+    private func handleCellValueChanged(at index: Int, actionType: ArrayObservable<ChatroomCellViewModel>.Action) {
+        let indexPaths = [IndexPath(row: index, section: 0)]
+        tableView.beginUpdates()
+        switch actionType {
+        case .insert:
+            tableView.insertRows(at: indexPaths, with: .automatic)
+        case .remove:
+            tableView.deleteRows(at: indexPaths, with: .automatic)
+        case .reload:
+            tableView.reloadRows(at: indexPaths, with: .automatic)
+        }
+        tableView.endUpdates()
+    }
+
+    func insertCell(at row: Int) {
+        let indexPath = IndexPath(row: row, section: 0)
+        tableView.beginUpdates()
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.endUpdates()
+    }
+
+    func reloadCell(at row: Int) {
+        let indexPath = IndexPath(row: row, section: 0)
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.endUpdates()
+    }
+
 }
 
 extension ChatroomViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.cellViewModels.value.count
+        return viewModel.cellViewModels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: ChatroomTableViewCell.uniqueIdentifier, for: indexPath) as? ChatroomTableViewCell {
-            let vm = ChatroomCellViewModel(style: .left, text: "Requests that return multiple items will be paginated to 30 items by default. You can specify further pages with the ?page parameter. For some resources, you can also set a custom page size up to 100 with the ?per_page parameter.")
-            cell.setup(viewModel: vm)
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatroomTableViewCell.uniqueIdentifier, for: indexPath) as? ChatroomTableViewCell else {
+            assert(false, "Cell type \(CellType.description()) is not handled")
+            return UITableViewCell()
         }
-        assert(false, "Cell type \(CellType.description()) is not registered")
-        return UITableViewCell()
+
+        let vm = viewModel.cellViewModels[indexPath.row]
+        cell.setup(viewModel: vm)
+        return cell
+    }
+}
+
+extension ChatroomViewController: ChatroomInputViewDelegate {
+    func returnKeyPressed(text: String) {
+        controller.sendMessage(text: text)
+    }
+
+    func sendButtomPressed(text: String) {
+        controller.sendMessage(text: text)
+    }
+
+    func adjustInputFrame(offset: CGFloat) {
+        messageInputViewBottomConstraint?.constant = offset
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    func keyboardWillShow(frame: CGRect) {
+        if self.tapGestureRecognizer == nil {
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchToHideKeyboard))
+            view.addGestureRecognizer(tapGestureRecognizer)
+            self.tapGestureRecognizer = tapGestureRecognizer
+        }
+
+        adjustInputFrame(offset: frame.height)
+    }
+
+    func keyboardWillHide(farme: CGRect) {
+        if let gestureRecognizer = self.tapGestureRecognizer {
+            view.removeGestureRecognizer(gestureRecognizer)
+        }
+        adjustInputFrame(offset: 0)
+    }
+
+    @objc func touchToHideKeyboard() {
+        if let gestureRecognizer = self.tapGestureRecognizer {
+            view.removeGestureRecognizer(gestureRecognizer)
+            view.becomeFirstResponder()
+        }
     }
 }

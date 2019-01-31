@@ -25,14 +25,45 @@ class ChatroomController {
         viewModel?.chatroomTitle.value = user.login
         service.getChatroomInfo(userId: user.id, result: Results<Chatroom>(complete: { [weak self] (chatroom) in
             guard let unwrappedSelf = self else { return }
-            unwrappedSelf.viewModel?.cellViewModels.value = unwrappedSelf.buildMessageViewModels(messages: chatroom.messages)
+            let viewModels = unwrappedSelf.buildMessageViewModels(messages: chatroom.messages)
+            unwrappedSelf.viewModel?.cellViewModels.reloadData(viewModels)
+
+        }))
+
+        service.observingMessage(from: user.id, onReceive: Results<Message>(complete: { [weak self] (message) in
+            self?.handleMessageReceived(message: message)
+        }, errorClosure: { (error) in
+
+        }))
+    }
+
+    private func handleMessageReceived(message: Message) {
+        if let vm = self.buildMessageViewModels(messages: [message]).first {
+            viewModel?.cellViewModels.append(vm)
+        }
+    }
+
+    func sendMessage(text: String) {
+        guard let viewModel = viewModel else { return }
+
+        let vm = ChatroomCellViewModel(style: .right, text: text)
+        vm.sent.value = false
+        viewModel.cellViewModels.append(vm)
+        let dataIndex = viewModel.cellViewModels.count
+        service.sendMessage(to: user.id, text: text, result: Results<Void>(complete: { [weak self] (_) in
+            vm.sent.value = true
+            self?.viewModel?.cellViewModels[dataIndex] = vm
+        }, errorClosure: { (error) in
+
         }))
     }
 
     func buildMessageViewModels(messages: [Message]) -> [ChatroomCellViewModel] {
         return messages.map {
-            let vm = ChatroomCellViewModel(style: .left, text: $0.content)
+            let style: ChatroomCellViewModel.Style = $0.senderId == user.id ? .left : .right
+            let vm = ChatroomCellViewModel(style: style, text: $0.content)
             return vm
         }
     }
+
 }

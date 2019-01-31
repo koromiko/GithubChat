@@ -8,15 +8,25 @@
 
 import UIKit
 
-
 protocol ChatroomInputViewDelegate: AnyObject {
     func keyboardWillShow(frame: CGRect)
     func keyboardWillHide(farme: CGRect)
-    func returnKeyPressed()
+    func returnKeyPressed(text: String)
+    func sendButtomPressed(text: String)
 }
 
 class ChatroomInputView: UIView {
+
     weak var delegate: ChatroomInputViewDelegate?
+
+    var text: String? {
+        set {
+            messageTextfield.text = text
+        }
+        get {
+            return messageTextfield.text
+        }
+    }
 
     lazy var messageTextfield: UITextField = {
         let textfield: UITextField = generateSubview()
@@ -49,6 +59,12 @@ class ChatroomInputView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    @objc func sendBtnPressed() {
+        if let text = text {
+            self.delegate?.sendButtomPressed(text: text)
+        }
+    }
+
     @objc func keyboardWillShow(_ aNotification: Notification) {
         if let frame = aNotification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             delegate?.keyboardWillShow(frame: frame)
@@ -74,7 +90,9 @@ class ChatroomInputView: UIView {
 
 extension ChatroomInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.delegate?.returnKeyPressed()
+        if let text = text {
+            self.delegate?.returnKeyPressed(text: text)
+        }
         return true
     }
 

@@ -116,5 +116,3 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
         vm.userDidSelect?()
     }
 }
-
-

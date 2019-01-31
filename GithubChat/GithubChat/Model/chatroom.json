@@ -2,7 +2,7 @@
     "chatroom_id": "1",
     "messages": [
         {
-            "message_id": "1"
+            "message_id": 1
             "sender_id": 3,
             "content": "Hello! 👍",
             "date_created": "Fri, 04 Sep 2015 22:54:39 +0000",
@@ -11,7 +11,7 @@
             "status": "sent"
         },
         {
-            "message_id": "2",
+            "message_id": 2,
             "sender_id": 20,
             "content": "hi there! 👍",
             "date_created": "Fri, 04 Sep 2015 22:54:39 +0000",

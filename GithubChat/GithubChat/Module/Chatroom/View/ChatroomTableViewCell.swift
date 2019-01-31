@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatroomCellViewModel {
+struct ChatroomCellViewModel {
     enum Style {
         case left
         case right
@@ -16,6 +16,8 @@ class ChatroomCellViewModel {
 
     let style: Style
     let text: String
+    let sent = Observable(true)
+
     init(style: Style, text: String) {
         self.style = style
         self.text = text
@@ -56,6 +58,8 @@ class ChatroomTableViewCell: UITableViewCell {
     }
 
     func setup(viewModel: ChatroomCellViewModel) {
+        self.viewModel = viewModel
+
         switch viewModel.style {
         case .left:
             bubbleImageView.image = leftBubbleImage
@@ -67,6 +71,17 @@ class ChatroomTableViewCell: UITableViewCell {
             bubbleRightConstraint?.isActive = true
         }
         contentLabel.text = viewModel.text
+
+        viewModel.sent.valueChanged = { [weak self] isSent in
+            self?.contentView.alpha = isSent ? 1.0 : 0.4
+        }
+    }
+
+    var viewModel: ChatroomCellViewModel?
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        viewModel?.sent.valueChanged = nil
     }
 
     var bubbleLeftConstraint: NSLayoutConstraint?

@@ -20,7 +20,7 @@ struct Chatroom: Decodable {
     }
 
     init() {
-        messages = [Message(id: "3", content: "Test", senderId: 20)]
+        messages = [Message(id: 0, content: "Test", senderId: 20)]
         id = "3"
         users = [User(id: 3, login: "mojombo", avatarUrl: "https://avatars0.githubusercontent.com/u/1?v=4")]
     }

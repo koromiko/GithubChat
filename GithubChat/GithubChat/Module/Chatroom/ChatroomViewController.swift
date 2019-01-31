@@ -10,6 +10,7 @@ import UIKit
 
 class ChatroomViewModel {
     let chatroomTitle = Observable("")
+    let inputText = Observable<String?>("")
     let cellViewModels = ArrayObservable<ChatroomCellViewModel>()
 }
 
@@ -74,6 +75,10 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
         viewModel.cellViewModels.valueChanged = { [weak self] (index, actionType) in
             self?.handleCellValueChanged(at: index, actionType: actionType)
         }
+
+        viewModel.inputText.valueChanged = { [weak self] text in
+            self?.messageInputView.text = text
+        }
     }
 
     override func viewDidLoad() {
@@ -93,20 +98,6 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
         case .reload:
             tableView.reloadRows(at: indexPaths, with: .automatic)
         }
-        tableView.endUpdates()
-    }
-
-    func insertCell(at row: Int) {
-        let indexPath = IndexPath(row: row, section: 0)
-        tableView.beginUpdates()
-        tableView.insertRows(at: [indexPath], with: .automatic)
-        tableView.endUpdates()
-    }
-
-    func reloadCell(at row: Int) {
-        let indexPath = IndexPath(row: row, section: 0)
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
     }
 
@@ -139,7 +130,7 @@ extension ChatroomViewController: ChatroomInputViewDelegate {
     }
 
     func adjustInputFrame(offset: CGFloat) {
-        messageInputViewBottomConstraint?.constant = offset
+        messageInputViewBottomConstraint?.constant = -offset
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -155,7 +146,7 @@ extension ChatroomViewController: ChatroomInputViewDelegate {
         adjustInputFrame(offset: frame.height)
     }
 
-    func keyboardWillHide(farme: CGRect) {
+    func keyboardWillHide() {
         if let gestureRecognizer = self.tapGestureRecognizer {
             view.removeGestureRecognizer(gestureRecognizer)
         }
@@ -165,7 +156,8 @@ extension ChatroomViewController: ChatroomInputViewDelegate {
     @objc func touchToHideKeyboard() {
         if let gestureRecognizer = self.tapGestureRecognizer {
             view.removeGestureRecognizer(gestureRecognizer)
-            view.becomeFirstResponder()
+            messageInputView.unfocus()
+            tapGestureRecognizer = nil
         }
     }
 }

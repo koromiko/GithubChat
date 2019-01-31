@@ -34,7 +34,6 @@
 		B502BBD821FF30E100ABF872 /* UITableView+Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBD721FF30E100ABF872 /* UITableView+Factory.swift */; };
 		B502BBDB21FF346C00ABF872 /* ChatroomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBDA21FF346C00ABF872 /* ChatroomTableViewCell.swift */; };
 		B502BBE022005DAE00ABF872 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBDF22005DAE00ABF872 /* Observable.swift */; };
-		B502BBE2220074E600ABF872 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE1220074E600ABF872 /* MessageService.swift */; };
 		B502BBE4220075AB00ABF872 /* Chatroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE3220075AB00ABF872 /* Chatroom.swift */; };
 		B502BBE62200766500ABF872 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE52200766500ABF872 /* Results.swift */; };
 		B502BBE82200770D00ABF872 /* ChatroomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE72200770D00ABF872 /* ChatroomService.swift */; };
@@ -83,7 +82,6 @@
 		B502BBD721FF30E100ABF872 /* UITableView+Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Factory.swift"; sourceTree = "<group>"; };
 		B502BBDA21FF346C00ABF872 /* ChatroomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomTableViewCell.swift; sourceTree = "<group>"; };
 		B502BBDF22005DAE00ABF872 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		B502BBE1220074E600ABF872 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		B502BBE3220075AB00ABF872 /* Chatroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chatroom.swift; sourceTree = "<group>"; };
 		B502BBE52200766500ABF872 /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		B502BBE72200770D00ABF872 /* ChatroomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomService.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 				B502BBB521FDF30E00ABF872 /* NetworkService.swift */,
 				B502BBB721FDF31700ABF872 /* StorageService.swift */,
 				B502BBBE21FF0F1000ABF872 /* GithubService.swift */,
-				B502BBE1220074E600ABF872 /* MessageService.swift */,
 				B502BBE72200770D00ABF872 /* ChatroomService.swift */,
 				70FE06B022028537004491E4 /* AuthService.swift */,
 			);
@@ -382,7 +379,6 @@
 				B502BBD421FF309900ABF872 /* ChatroomViewController.swift in Sources */,
 				B502BBE82200770D00ABF872 /* ChatroomService.swift in Sources */,
 				B502BBB421FDF2C700ABF872 /* User.swift in Sources */,
-				B502BBE2220074E600ABF872 /* MessageService.swift in Sources */,
 				B502BBD821FF30E100ABF872 /* UITableView+Factory.swift in Sources */,
 				B502BBC921FF17F800ABF872 /* UserListTableViewCell.swift in Sources */,
 				B502BB8E21FC93EB00ABF872 /* ViewController.swift in Sources */,

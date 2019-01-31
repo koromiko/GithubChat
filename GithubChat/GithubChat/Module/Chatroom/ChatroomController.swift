@@ -15,7 +15,7 @@ class ChatroomController {
 
     private let user: User
 
-    init(user: User, viewModel: ChatroomViewModel, chatroomService: ChatroomService = ChatroomService()) {
+    init(user: User, viewModel: ChatroomViewModel, chatroomService: ChatroomService = ChatroomService.shared) {
         self.service = chatroomService
         self.user = user
         self.viewModel = viewModel
@@ -46,10 +46,12 @@ class ChatroomController {
     func sendMessage(text: String) {
         guard let viewModel = viewModel else { return }
 
+        viewModel.inputText.value = nil
+
         let vm = ChatroomCellViewModel(style: .right, text: text)
         vm.sent.value = false
         viewModel.cellViewModels.append(vm)
-        let dataIndex = viewModel.cellViewModels.count
+        let dataIndex = viewModel.cellViewModels.count - 1
         service.sendMessage(to: user.id, text: text, result: Results<Void>(complete: { [weak self] (_) in
             vm.sent.value = true
             self?.viewModel?.cellViewModels[dataIndex] = vm

@@ -76,8 +76,8 @@ class ArrayObservable<T>: Collection, RangeReplaceableCollection {
             return values[position]
         }
         set(newValue) {
-            valueChanged?(position, .reload)
             values[position] = newValue
+            valueChanged?(position, .reload)
         }
     }
 

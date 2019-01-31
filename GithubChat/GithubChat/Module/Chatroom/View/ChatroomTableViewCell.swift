@@ -39,12 +39,14 @@ class ChatroomTableViewCell: UITableViewCell {
         return imageView
     }()
 
+    private var viewModel: ChatroomCellViewModel?
+
     private var leftBubbleImage: UIImage = {
         return UIImage(named: "left_bubble")!.resizableImage(withCapInsets: UIEdgeInsets(top: 15, left: 25, bottom: 20, right: 20), resizingMode: .tile)
     }()
 
     private var rightBubbleImage: UIImage = {
-        return UIImage(named: "right_bubble")!.resizableImage(withCapInsets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 20))
+        return UIImage(named: "right_bubble")!.resizableImage(withCapInsets: UIEdgeInsets(top: 15, left: 20, bottom: 20, right: 25), resizingMode: .tile)
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -59,25 +61,38 @@ class ChatroomTableViewCell: UITableViewCell {
 
     func setup(viewModel: ChatroomCellViewModel) {
         self.viewModel = viewModel
-
-        switch viewModel.style {
-        case .left:
-            bubbleImageView.image = leftBubbleImage
-            bubbleRightConstraint?.isActive = false
-            bubbleLeftConstraint?.isActive = true
-        case .right:
-            bubbleImageView.image = rightBubbleImage
-            bubbleLeftConstraint?.isActive = false
-            bubbleRightConstraint?.isActive = true
-        }
         contentLabel.text = viewModel.text
 
-        viewModel.sent.valueChanged = { [weak self] isSent in
+        setupBubbleStyle(viewModel.style)
+
+        setupSentStatus(sent: viewModel.sent)
+
+        setNeedsLayout()
+    }
+
+    private func setupSentStatus(sent: Observable<Bool>) {
+        contentView.alpha = sent.value ? 1.0 : 0.4
+        sent.valueChanged = { [weak self] isSent in
             self?.contentView.alpha = isSent ? 1.0 : 0.4
         }
     }
 
-    var viewModel: ChatroomCellViewModel?
+    private func setupBubbleStyle(_ style: ChatroomCellViewModel.Style) {
+        switch style {
+        case .left:
+            bubbleImageView.image = leftBubbleImage
+            bubbleRightConstraint?.isActive = false
+            bubbleLeftConstraint?.isActive = true
+            labelLeftConstraint?.constant = 20
+            labelRightConstraint?.constant = -10
+        case .right:
+            bubbleImageView.image = rightBubbleImage
+            bubbleLeftConstraint?.isActive = false
+            bubbleRightConstraint?.isActive = true
+            labelLeftConstraint?.constant = 10
+            labelRightConstraint?.constant = -20
+        }
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -86,15 +101,21 @@ class ChatroomTableViewCell: UITableViewCell {
 
     var bubbleLeftConstraint: NSLayoutConstraint?
     var bubbleRightConstraint: NSLayoutConstraint?
+    var labelLeftConstraint: NSLayoutConstraint?
+    var labelRightConstraint: NSLayoutConstraint?
 
     private func initLayout() {
         let screenSize = UIScreen.main.bounds.size
         bubbleImageView.constraints(snapTo: contentView, top: 10, bottom: 10).activate()
         bubbleLeftConstraint = bubbleImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10)
         bubbleRightConstraint = bubbleImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10)
-        bubbleLeftConstraint?.isActive = true
-        bubbleRightConstraint?.isActive = false
         bubbleImageView.widthAnchor.constraint(lessThanOrEqualToConstant: screenSize.width*0.6).isActive = true
-        contentLabel.constraints(snapTo: bubbleImageView, top: 10, left: 20, bottom: 10, right: 10).activate()
+        contentLabel.constraints(snapTo: bubbleImageView, top: 10, bottom: 10).activate()
+
+        labelLeftConstraint = contentLabel.leftAnchor.constraint(equalTo: bubbleImageView.leftAnchor)
+        labelRightConstraint = contentLabel.rightAnchor.constraint(equalTo: bubbleImageView.rightAnchor)
+
+        labelLeftConstraint?.isActive = true
+        labelRightConstraint?.isActive = true
     }
 }

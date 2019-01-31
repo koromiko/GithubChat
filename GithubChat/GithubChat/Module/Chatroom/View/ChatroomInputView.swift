@@ -10,7 +10,7 @@ import UIKit
 
 protocol ChatroomInputViewDelegate: AnyObject {
     func keyboardWillShow(frame: CGRect)
-    func keyboardWillHide(farme: CGRect)
+    func keyboardWillHide()
     func returnKeyPressed(text: String)
     func sendButtomPressed(text: String)
 }
@@ -21,7 +21,7 @@ class ChatroomInputView: UIView {
 
     var text: String? {
         set {
-            messageTextfield.text = text
+            messageTextfield.text = newValue
         }
         get {
             return messageTextfield.text
@@ -39,6 +39,7 @@ class ChatroomInputView: UIView {
     lazy var submitBtn: UIButton = {
         let btn: UIButton = generateSubview()
         btn.setTitle("Send", for: .normal)
+        btn.addTarget(self, action: #selector(sendBtnPressed), for: .touchUpInside)
         return btn
     }()
 
@@ -54,9 +55,13 @@ class ChatroomInputView: UIView {
         registrterKeyboardNotification()
     }
 
-    func registrterKeyboardNotification() {
+    private func registrterKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    func unfocus() {
+        messageTextfield.resignFirstResponder()
     }
 
     @objc func sendBtnPressed() {
@@ -72,9 +77,7 @@ class ChatroomInputView: UIView {
     }
 
     @objc func keyboardWillHide(_ aNotificaition: Notification) {
-        if let frame = aNotificaition.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            delegate?.keyboardWillHide(farme: frame)
-        }
+        delegate?.keyboardWillHide()
     }
 
     private func initLayout() {

@@ -140,7 +140,12 @@ The functions of source code are categorized based on the folder:
 
 
 
+## Future work
 
+* Network data provider (rest setting such as URL and method type) could be separated from the service layer 
+* Write unit test. All controllers are unit test ready 
+* User list pagination.
+* Keyboard logic could be separated as a global protocol extension.
 
 
 

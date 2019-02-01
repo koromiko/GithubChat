@@ -8,7 +8,8 @@
 
 import UIKit
 
-class UserListController {
+class UserListController: HttpErrorHandlable {
+
     let service: GithubService
 
     weak var viewModel: UserListViewModel?
@@ -26,8 +27,14 @@ class UserListController {
             }
         }, errorClosure: { [weak self] (error) in
             self?.viewModel?.isLoading.value = false
-
+            if let error = error as? HttpError {
+                self?.handle(error: error)
+            }
         }))
+    }
+
+    func displayError(msg: String) {
+        viewModel?.alertMessage.value = msg
     }
 
     private func buildViewModels(users: [User]) -> [UserListCellViewModel] {

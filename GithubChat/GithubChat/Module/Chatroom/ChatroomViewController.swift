@@ -9,12 +9,13 @@
 import UIKit
 
 class ChatroomViewModel {
+    let alertMessage = Observable<String?>(nil)
     let chatroomTitle = Observable("")
     let inputText = Observable<String?>("")
     let cellViewModels = ArrayObservable<ChatroomCellViewModel>()
 }
 
-class ChatroomViewController: UIViewController, SingleTypeTableViewController {
+class ChatroomViewController: UIViewController, SingleTypeTableViewController, AlertDisplayable {
     typealias CellType = ChatroomTableViewCell
 
     private let controller: ChatroomController
@@ -78,6 +79,12 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController {
 
         viewModel.inputText.valueChanged = { [weak self] text in
             self?.messageInputView.text = text
+        }
+
+        viewModel.alertMessage.valueChanged = { [weak self] msg in
+            if let msg = msg {
+                self?.showAlert(title: "Error", message: msg)
+            }
         }
     }
 

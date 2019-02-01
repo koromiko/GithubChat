@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		70FE06B122028537004491E4 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE06B022028537004491E4 /* AuthService.swift */; };
+		70FE06BA2203C05B004491E4 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE06B92203C05B004491E4 /* UIViewController+Alert.swift */; };
+		70FE06BC2203DDE5004491E4 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE06BB2203DDE5004491E4 /* DateFormatter.swift */; };
+		70FE06BF2203F4FB004491E4 /* ErrorHandlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FE06BE2203F4FB004491E4 /* ErrorHandlable.swift */; };
 		B502BB8C21FC93EB00ABF872 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BB8B21FC93EB00ABF872 /* AppDelegate.swift */; };
 		B502BB8E21FC93EB00ABF872 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BB8D21FC93EB00ABF872 /* ViewController.swift */; };
 		B502BB9121FC93EB00ABF872 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B502BB8F21FC93EB00ABF872 /* Main.storyboard */; };
@@ -53,6 +56,9 @@
 
 /* Begin PBXFileReference section */
 		70FE06B022028537004491E4 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		70FE06B92203C05B004491E4 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
+		70FE06BB2203DDE5004491E4 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		70FE06BE2203F4FB004491E4 /* ErrorHandlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlable.swift; sourceTree = "<group>"; };
 		B502BB8821FC93EB00ABF872 /* GithubChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B502BB8B21FC93EB00ABF872 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B502BB8D21FC93EB00ABF872 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +113,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70FE06BD2203F4EC004491E4 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				70FE06BE2203F4FB004491E4 /* ErrorHandlable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		B502BB7F21FC93EB00ABF872 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +142,7 @@
 		B502BB8A21FC93EB00ABF872 /* GithubChat */ = {
 			isa = PBXGroup;
 			children = (
+				70FE06BD2203F4EC004491E4 /* Protocol */,
 				B502BBDC21FF353100ABF872 /* Common */,
 				B502BBC421FF166500ABF872 /* Helper */,
 				B502BBB021FD58CA00ABF872 /* Model */,
@@ -214,6 +229,7 @@
 				B502BBCC21FF1DD600ABF872 /* NSLayoutConstraint+Helper.swift */,
 				B502BBCE21FF229A00ABF872 /* UIView+Identifier.swift */,
 				B502BBD721FF30E100ABF872 /* UITableView+Factory.swift */,
+				70FE06B92203C05B004491E4 /* UIViewController+Alert.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -240,6 +256,7 @@
 			children = (
 				B502BBDF22005DAE00ABF872 /* Observable.swift */,
 				B502BBE52200766500ABF872 /* Results.swift */,
+				70FE06BB2203DDE5004491E4 /* DateFormatter.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -370,9 +387,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70FE06BC2203DDE5004491E4 /* DateFormatter.swift in Sources */,
 				B502BBB621FDF30E00ABF872 /* NetworkService.swift in Sources */,
 				B502BBB821FDF31700ABF872 /* StorageService.swift in Sources */,
 				B502BBBF21FF0F1000ABF872 /* GithubService.swift in Sources */,
+				70FE06BA2203C05B004491E4 /* UIViewController+Alert.swift in Sources */,
 				B502BBD621FF30B600ABF872 /* ChatroomController.swift in Sources */,
 				B502BBDB21FF346C00ABF872 /* ChatroomTableViewCell.swift in Sources */,
 				B502BBEC22019FE800ABF872 /* ChatroomInputView.swift in Sources */,
@@ -392,6 +411,7 @@
 				B502BBE4220075AB00ABF872 /* Chatroom.swift in Sources */,
 				B502BBCF21FF229A00ABF872 /* UIView+Identifier.swift in Sources */,
 				B502BBE022005DAE00ABF872 /* Observable.swift in Sources */,
+				70FE06BF2203F4FB004491E4 /* ErrorHandlable.swift in Sources */,
 				B502BB9421FC93EB00ABF872 /* GithubChat.xcdatamodeld in Sources */,
 				B502BBBA21FDF32100ABF872 /* Message.swift in Sources */,
 				B502BBCD21FF1DD600ABF872 /* NSLayoutConstraint+Helper.swift in Sources */,

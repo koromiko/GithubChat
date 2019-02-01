@@ -71,10 +71,13 @@ class ChatroomTableViewCell: UITableViewCell {
     }
 
     private func setupSentStatus(sent: Observable<Bool>) {
-        contentView.alpha = sent.value ? 1.0 : 0.4
-        sent.valueChanged = { [weak self] isSent in
+        sent.valueChangedHotStart = { [weak self] isSent in
             self?.contentView.alpha = isSent ? 1.0 : 0.4
         }
+//        contentView.alpha = sent.value ? 1.0 : 0.4
+//        sent.valueChanged = { [weak self] isSent in
+//            self?.contentView.alpha = isSent ? 1.0 : 0.4
+//        }
     }
 
     private func setupBubbleStyle(_ style: ChatroomCellViewModel.Style) {
@@ -96,7 +99,7 @@ class ChatroomTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        viewModel?.sent.valueChanged = nil
+        viewModel?.sent.valueChangedHotStart = nil
     }
 
     var bubbleLeftConstraint: NSLayoutConstraint?

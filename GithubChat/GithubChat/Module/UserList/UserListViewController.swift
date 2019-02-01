@@ -8,13 +8,14 @@
 
 import UIKit
 
-class UserListViewModel {
+class UserListViewModel: AlertViewModelProtocol {
     var cellViewModels = Observable([UserListCellViewModel]())
     var isLoading = Observable(false)
     var openChatroom: ((User) -> Void)?
+    var alertMessage = Observable<String?>(nil)
 }
 
-class UserListViewController: UIViewController, SingleTypeTableViewController {
+class UserListViewController: UIViewController, SingleTypeTableViewController, AlertDisplayable {
     typealias CellType = UserListTableViewCell
 
     let controller: UserListController
@@ -75,6 +76,12 @@ class UserListViewController: UIViewController, SingleTypeTableViewController {
 
         viewModel.openChatroom = { [weak self] user in
             self?.openChatroomPage(user: user)
+        }
+
+        viewModel.alertMessage.valueChanged = { [weak self] msg in
+            if let msg = msg {
+                self?.showAlert(title: "Error", message: msg)
+            }
         }
     }
 

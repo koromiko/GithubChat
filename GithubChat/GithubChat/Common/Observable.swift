@@ -15,12 +15,20 @@ class Observable<T> {
         didSet {
             DispatchQueue.main.async {
                 self.valueChanged?(self.value)
+                self.valueChangedHotStart?(self.value)
             }
         }
     }
 
-    /// Assogin this with a closure to observe the value changes
+    /// Assign this with a closure to observe the value changes, note that this is a cold signal, which won't be fired by closure assignement
     var valueChanged: ((T) -> Void)?
+
+    /// This closure will be triggered when the value updated and when closure is assigned
+    var valueChangedHotStart: ((T) -> Void)? {
+        didSet {
+            valueChangedHotStart?(value)
+        }
+    }
 
     init(_ value: T) {
         self.value = value

@@ -18,12 +18,9 @@
 		B502BB9621FC93EC00ABF872 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B502BB9521FC93EC00ABF872 /* Assets.xcassets */; };
 		B502BB9921FC93EC00ABF872 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B502BB9721FC93EC00ABF872 /* LaunchScreen.storyboard */; };
 		B502BBA421FC93EC00ABF872 /* GithubChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBA321FC93EC00ABF872 /* GithubChatTests.swift */; };
-		B502BBB221FDF05000ABF872 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = B502BBB121FDF05000ABF872 /* users.json */; };
 		B502BBB421FDF2C700ABF872 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBB321FDF2C700ABF872 /* User.swift */; };
 		B502BBB621FDF30E00ABF872 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBB521FDF30E00ABF872 /* NetworkService.swift */; };
-		B502BBB821FDF31700ABF872 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBB721FDF31700ABF872 /* StorageService.swift */; };
 		B502BBBA21FDF32100ABF872 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBB921FDF32100ABF872 /* Message.swift */; };
-		B502BBBD21FF0C8000ABF872 /* users.json in Resources */ = {isa = PBXBuildFile; fileRef = B502BBB121FDF05000ABF872 /* users.json */; };
 		B502BBBF21FF0F1000ABF872 /* GithubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBBE21FF0F1000ABF872 /* GithubService.swift */; };
 		B502BBC121FF10EE00ABF872 /* UserListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBC021FF10EE00ABF872 /* UserListController.swift */; };
 		B502BBC321FF154800ABF872 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBC221FF154800ABF872 /* UserListViewController.swift */; };
@@ -40,7 +37,6 @@
 		B502BBE4220075AB00ABF872 /* Chatroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE3220075AB00ABF872 /* Chatroom.swift */; };
 		B502BBE62200766500ABF872 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE52200766500ABF872 /* Results.swift */; };
 		B502BBE82200770D00ABF872 /* ChatroomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBE72200770D00ABF872 /* ChatroomService.swift */; };
-		B502BBEA220078F900ABF872 /* chatroom.json in Resources */ = {isa = PBXBuildFile; fileRef = B502BBE9220078F900ABF872 /* chatroom.json */; };
 		B502BBEC22019FE800ABF872 /* ChatroomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B502BBEB22019FE800ABF872 /* ChatroomInputView.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,10 +66,8 @@
 		B502BB9F21FC93EC00ABF872 /* GithubChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GithubChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B502BBA321FC93EC00ABF872 /* GithubChatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubChatTests.swift; sourceTree = "<group>"; };
 		B502BBA521FC93EC00ABF872 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B502BBB121FDF05000ABF872 /* users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = users.json; sourceTree = "<group>"; };
 		B502BBB321FDF2C700ABF872 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B502BBB521FDF30E00ABF872 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		B502BBB721FDF31700ABF872 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		B502BBB921FDF32100ABF872 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B502BBBE21FF0F1000ABF872 /* GithubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubService.swift; sourceTree = "<group>"; };
 		B502BBC021FF10EE00ABF872 /* UserListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListController.swift; sourceTree = "<group>"; };
@@ -91,7 +85,6 @@
 		B502BBE3220075AB00ABF872 /* Chatroom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chatroom.swift; sourceTree = "<group>"; };
 		B502BBE52200766500ABF872 /* Results.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		B502BBE72200770D00ABF872 /* ChatroomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomService.swift; sourceTree = "<group>"; };
-		B502BBE9220078F900ABF872 /* chatroom.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatroom.json; sourceTree = "<group>"; };
 		B502BBEB22019FE800ABF872 /* ChatroomInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				B502BBB521FDF30E00ABF872 /* NetworkService.swift */,
-				B502BBB721FDF31700ABF872 /* StorageService.swift */,
 				B502BBBE21FF0F1000ABF872 /* GithubService.swift */,
 				B502BBE72200770D00ABF872 /* ChatroomService.swift */,
 				70FE06B022028537004491E4 /* AuthService.swift */,
@@ -192,11 +184,9 @@
 		B502BBB021FD58CA00ABF872 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B502BBB121FDF05000ABF872 /* users.json */,
 				B502BBB321FDF2C700ABF872 /* User.swift */,
 				B502BBB921FDF32100ABF872 /* Message.swift */,
 				B502BBE3220075AB00ABF872 /* Chatroom.swift */,
-				B502BBE9220078F900ABF872 /* chatroom.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -343,8 +333,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B502BBB221FDF05000ABF872 /* users.json in Resources */,
-				B502BBEA220078F900ABF872 /* chatroom.json in Resources */,
 				B502BB9921FC93EC00ABF872 /* LaunchScreen.storyboard in Resources */,
 				B502BB9621FC93EC00ABF872 /* Assets.xcassets in Resources */,
 				B502BB9121FC93EB00ABF872 /* Main.storyboard in Resources */,
@@ -355,7 +343,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B502BBBD21FF0C8000ABF872 /* users.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +376,6 @@
 			files = (
 				70FE06BC2203DDE5004491E4 /* DateFormatter.swift in Sources */,
 				B502BBB621FDF30E00ABF872 /* NetworkService.swift in Sources */,
-				B502BBB821FDF31700ABF872 /* StorageService.swift in Sources */,
 				B502BBBF21FF0F1000ABF872 /* GithubService.swift in Sources */,
 				70FE06BA2203C05B004491E4 /* UIViewController+Alert.swift in Sources */,
 				B502BBD621FF30B600ABF872 /* ChatroomController.swift in Sources */,

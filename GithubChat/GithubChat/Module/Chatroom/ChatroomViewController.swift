@@ -54,6 +54,12 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController, A
         fatalError("Cannot use this class in interface builder")
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        initBinding()
+        controller.start()
+    }
+
     private func initLayout() {
         view.backgroundColor = .white
         tableView.constraints(snapTo: view, top: 0, left: 0, right: 0).activate()
@@ -88,24 +94,25 @@ class ChatroomViewController: UIViewController, SingleTypeTableViewController, A
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        initBinding()
-        controller.start()
-    }
-
     private func handleCellValueChanged(at index: Int, actionType: ArrayObservable<ChatroomCellViewModel>.Action) {
         let indexPaths = [IndexPath(row: index, section: 0)]
+        var scrollTo: IndexPath?
         tableView.beginUpdates()
         switch actionType {
         case .insert:
             tableView.insertRows(at: indexPaths, with: .automatic)
+            scrollTo = indexPaths.first
         case .remove:
             tableView.deleteRows(at: indexPaths, with: .automatic)
         case .reload:
             tableView.reloadRows(at: indexPaths, with: .automatic)
         }
         tableView.endUpdates()
+
+        // Scroll the tableview to the latest message
+        if let indexPath = scrollTo {
+            tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
 
 }

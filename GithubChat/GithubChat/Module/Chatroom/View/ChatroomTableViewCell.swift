@@ -74,10 +74,6 @@ class ChatroomTableViewCell: UITableViewCell {
         sent.valueChangedHotStart = { [weak self] isSent in
             self?.contentView.alpha = isSent ? 1.0 : 0.4
         }
-//        contentView.alpha = sent.value ? 1.0 : 0.4
-//        sent.valueChanged = { [weak self] isSent in
-//            self?.contentView.alpha = isSent ? 1.0 : 0.4
-//        }
     }
 
     private func setupBubbleStyle(_ style: ChatroomCellViewModel.Style) {
@@ -102,12 +98,12 @@ class ChatroomTableViewCell: UITableViewCell {
         viewModel?.sent.valueChangedHotStart = nil
     }
 
-    var bubbleLeftConstraint: NSLayoutConstraint?
-    var bubbleRightConstraint: NSLayoutConstraint?
-    var labelLeftConstraint: NSLayoutConstraint?
-    var labelRightConstraint: NSLayoutConstraint?
-
+    private var bubbleLeftConstraint: NSLayoutConstraint?
+    private var bubbleRightConstraint: NSLayoutConstraint?
+    private var labelLeftConstraint: NSLayoutConstraint?
+    private var labelRightConstraint: NSLayoutConstraint?
     private func initLayout() {
+        selectionStyle = .none
         let screenSize = UIScreen.main.bounds.size
         bubbleImageView.constraints(snapTo: contentView, top: 10, bottom: 10).activate()
         bubbleLeftConstraint = bubbleImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10)

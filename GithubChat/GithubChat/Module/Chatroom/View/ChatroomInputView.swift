@@ -98,12 +98,4 @@ extension ChatroomInputView: UITextFieldDelegate {
         }
         return true
     }
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-
-    }
 }

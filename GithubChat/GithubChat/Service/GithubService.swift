@@ -13,26 +13,30 @@ class GithubService {
 
     init(service: NetworkService = NetworkService()) {
         self.service = service
+        self.service.domainErrorHandler = self.quotaLimitErrorHandler()
     }
 
     func getUsers(results: Results<[User]>) {
-        service.getRequest(urlString: "https://api.github.com/users", parameter: [:], results: results)
-//        DispatchQueue.global().async {
-////            sleep(1)
-//            do {
-//                if let jsonPath = Bundle(for: type(of: self)).path(forResource: "users", ofType: "json") {
-//                    let data = try Data(contentsOf: URL(fileURLWithPath: jsonPath))
-//                    let users = try JSONDecoder().decode([User].self, from: data)
-//                    DispatchQueue.main.async {
-//                        results.completeClosure(users)
-//                    }
-//                }
-//            } catch let e {
-//                DispatchQueue.main.async {
-//                    results.errorClosure?(e)
-//                }
-//            }
-//        }
+        service.getRequest(urlString: "https://api.github.com/users", parameter: ["page": 1, "per_page": 100], results: results)
+    }
 
+    /// Check the github header exists and examine if the limit has been reached
+    private func quotaLimitErrorHandler() -> ((URLResponse) -> Error?) {
+        return { response in
+            if let response = response as? HTTPURLResponse,
+                let remainingRequestsString = response.allHeaderFields["X-RateLimit-Remaining"] as? String,
+                let remainingRequests = Int(remainingRequestsString),
+                remainingRequests <= 0 {
+
+                if let resetTimeString = response.allHeaderFields["X-RateLimit-Reset"] as? String,
+                    let resetTimestamp = TimeInterval(resetTimeString) {
+                    let resetTime = Date(timeIntervalSince1970: resetTimestamp)
+                    return HttpError.reachLimit(resetTime: resetTime)
+                } else {
+                    return HttpError.reachLimit(resetTime: nil)
+                }
+            }
+            return nil
+        }
     }
 }

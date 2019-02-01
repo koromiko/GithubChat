@@ -18,10 +18,4 @@ struct Chatroom: Decodable {
         case id = "chatroom_id"
         case messages
     }
-
-    init() {
-        messages = [Message(id: 0, content: "Test", senderId: 20)]
-        id = "3"
-        users = [User(id: 3, login: "mojombo", avatarUrl: "https://avatars0.githubusercontent.com/u/1?v=4")]
-    }
 }

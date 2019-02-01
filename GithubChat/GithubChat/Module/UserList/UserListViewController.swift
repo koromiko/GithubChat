@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserListViewModel: AlertViewModelProtocol {
+class UserListViewModel {
     var cellViewModels = Observable([UserListCellViewModel]())
     var isLoading = Observable(false)
     var openChatroom: ((User) -> Void)?

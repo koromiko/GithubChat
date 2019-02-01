@@ -18,14 +18,22 @@ enum HttpError: Error {
 class NetworkService {
     private let session: URLSession
 
+    /// Assign this closure for handling the domain-specific error
+    var domainErrorHandler: ((URLResponse) -> Error?)?
+
     init(session: URLSession = URLSession.shared) {
         self.session = session
     }
 
     /// Make a http get reuqest with query parameter
-    func getRequest<T: Decodable>(urlString: String, parameter: [String: Any], results: Results<T>) {
-        if let url = URL(string: urlString) {
-            session.dataTask(with: url) { [weak self] (data, response, error) in
+    func getRequest<T: Decodable>(urlString: String, parameter: [String: Any]? = nil, results: Results<T>) {
+        var path = urlString
+        if let param = parameter {
+            path.append("?")
+            path.append(urlEncode(param))
+        }
+        if let url = URL(string: path) {
+            let dataTask = session.dataTask(with: url) { [weak self] (data, response, error) in
                 if let response = response as? HTTPURLResponse {
                     if response.statusCode >= 200 && response.statusCode < 300,
                         let data = data {
@@ -37,31 +45,26 @@ class NetworkService {
                             results.errorClosure?(HttpError.jsonFormatError(error: e))
                         }
                         return
-                    } else if self?.handleExceedLimit(headerFiled: response.allHeaderFields, results: results) ?? false {
-                        return
+                    } else if let error = self?.domainErrorHandler?(response) {
+                        results.errorClosure?(error)
                     }
                 }
 
                 /// Currently unhandable error
                 results.errorClosure?(HttpError.unknown(error: error))
             }
+            dataTask.resume()
         } else {
             results.errorClosure?(HttpError.urlFormatError)
         }
     }
 
-    /// Check if reaching the request limit, return true if running out of quota
-    private func handleExceedLimit<T>(headerFiled: [AnyHashable: Any], results: Results<T>) -> Bool {
-        if let remainingRequests = headerFiled["X-RateLimit-Remaining"] as? Int, remainingRequests <= 0 {
-            if let resetTime = headerFiled["X-RateLimit-Remaining"] as? TimeInterval {
-                let resetTime = Date(timeIntervalSince1970: resetTime)
-                results.errorClosure?(HttpError.reachLimit(resetTime: resetTime))
-            } else {
-                results.errorClosure?(HttpError.reachLimit(resetTime: nil))
-            }
-            return true
+    // Encode the url from dictionary, with url encoding
+    private func urlEncode(_ parameter: [String: Any]) -> String {
+        let querys = parameter.reduce(into: [String]()) { (q, keyValue) in
+            q.append("\(keyValue.key)=\(keyValue.value)")
         }
-        return false
+        return querys.joined(separator: "&")
     }
 
 }

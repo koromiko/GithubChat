@@ -52,28 +52,3 @@ extension UIView {
     }
 
 }
-
-protocol AutolayoutReady: AnyObject {
-    func initLayout()
-}
-
-private struct AutolayoutReadyAssociatedKey {
-    static var isConstraintUpdated = "AutolayoutReadyAssociatedKey.isConstraintUpdated"
-}
-extension AutolayoutReady where Self: UIView {
-    private var isConstratintUpdated: Bool {
-        get {
-            return objc_getAssociatedObject(self, &AutolayoutReadyAssociatedKey.isConstraintUpdated) as? Bool ?? false
-        }
-        set {
-            objc_setAssociatedObject(self, &AutolayoutReadyAssociatedKey.isConstraintUpdated, newValue, .OBJC_ASSOCIATION_ASSIGN)
-        }
-    }
-
-    func handleUpdateConstraints() {
-        if !isConstratintUpdated {
-            initLayout()
-            isConstratintUpdated = true
-        }
-    }
-}

@@ -37,12 +37,6 @@ class ChatroomController {
         }))
     }
 
-    private func handleMessageReceived(message: Message) {
-        if let vm = self.buildMessageViewModels(messages: [message]).first {
-            viewModel?.cellViewModels.append(vm)
-        }
-    }
-
     func sendMessage(text: String) {
         guard let viewModel = viewModel else { return }
 
@@ -60,7 +54,13 @@ class ChatroomController {
         }))
     }
 
-    func buildMessageViewModels(messages: [Message]) -> [ChatroomCellViewModel] {
+    private func handleMessageReceived(message: Message) {
+        if let vm = self.buildMessageViewModels(messages: [message]).first {
+            viewModel?.cellViewModels.append(vm)
+        }
+    }
+
+    private func buildMessageViewModels(messages: [Message]) -> [ChatroomCellViewModel] {
         return messages.map {
             let style: ChatroomCellViewModel.Style = $0.senderId == user.id ? .left : .right
             let vm = ChatroomCellViewModel(style: style, text: $0.content)

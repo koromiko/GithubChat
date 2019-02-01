@@ -27,7 +27,6 @@ class UserListTableViewCell: UITableViewCell {
 
     lazy var nameLabel: UILabel = {
         let label: UILabel = contentView.generateSubview()
-        label.text = "text"
         return label
     }()
 

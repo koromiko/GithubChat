@@ -7,8 +7,6 @@
 //
 
 import Foundation
-
-
 /**
  Service for fetching the chatroom resource from server (mock behavior)
  */
@@ -22,7 +20,8 @@ class ChatroomService {
     func getChatroomInfo(userId: Int, result: Results<Chatroom>) {
         DispatchQueue.global().async {
             sleep(1)
-            var chatroom = Chatroom()
+            let user = User(id: userId, login: "mockLogin", avatarUrl: "mockAvatarURL")
+            var chatroom = Chatroom(users: [user], id: "1", messages: [])
             if let messages = self.messages[userId] {
                 chatroom.messages = messages
             }

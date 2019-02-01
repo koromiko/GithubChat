@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Conform this protocol to have an easy one-type tableview setup. Spefify the CellType and call the generateTableView for getting the tableview instance with self-sizing support
 protocol SingleTypeTableViewController {
     associatedtype CellType: UITableViewCell
 }

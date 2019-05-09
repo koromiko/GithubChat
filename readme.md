@@ -1,7 +1,7 @@
 
 # GithubChat
 
-A chat app for GitHub users. This app is a skeleton and optimized for a 5-people (could be more) team. 
+A chat app for GitHub users. Note: This app is a skeleton and has no message function at all. 
 
 ![](sample.gif)
 
